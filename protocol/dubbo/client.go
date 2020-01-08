@@ -17,17 +17,17 @@
 
 package dubbo
 
-import (
+import (    // 导入标准库
 	"strings"
 	"sync"
 	"time"
 )
 
-import (
+import (   // 导入第三方包
 	"github.com/apache/dubbo-go-hessian2"
 	"github.com/dubbogo/getty"
 	"github.com/dubbogo/gost/sync"
-	perrors "github.com/pkg/errors"
+	perrors "github.com/pkg/errors" // todo 此种导入方式是啥？
 	"go.uber.org/atomic"
 	"gopkg.in/yaml.v2"
 )
@@ -55,7 +55,7 @@ func init() {
 	// load clientconfig from consumer_config
 	// default use dubbo
 	consumerConfig := config.GetConsumerConfig()
-	if consumerConfig.ApplicationConfig == nil {
+	if consumerConfig.ApplicationConfig == nil { // 判断消费者的应用配置
 		return
 	}
 	protocolConf := config.GetConsumerConfig().ProtocolConf
@@ -63,16 +63,16 @@ func init() {
 	if protocolConf == nil {
 		logger.Info("protocol_conf default use dubbo config")
 	} else {
-		dubboConf := protocolConf.(map[interface{}]interface{})[DUBBO]
+		dubboConf := protocolConf.(map[interface{}]interface{})[DUBBO] // todo 看不懂语法含义
 		if dubboConf == nil {
 			logger.Warnf("dubboConf is nil")
 			return
 		}
-		dubboConfByte, err := yaml.Marshal(dubboConf)
+		dubboConfByte, err := yaml.Marshal(dubboConf)  // todo 此处yaml的用途
 		if err != nil {
 			panic(err)
 		}
-		err = yaml.Unmarshal(dubboConfByte, &defaultClientConfig)
+		err = yaml.Unmarshal(dubboConfByte, &defaultClientConfig) // &是地址引用，赋值给指针变量吗
 		if err != nil {
 			panic(err)
 		}
@@ -82,7 +82,7 @@ func init() {
 		logger.Warnf("[CheckValidity] error: %v", err)
 		return
 	}
-	setClientGrpool()
+	setClientGrpool()  // todo 此方法用途？
 }
 
 func SetClientConf(c ClientConfig) {
